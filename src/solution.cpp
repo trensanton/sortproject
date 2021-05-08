@@ -63,6 +63,21 @@ void rebalance(const dist_sort_t *data, const dist_sort_size_t myDataCount, dist
 	MPI_Win_free(&win);
 }
 
+bool tolerance(dist_sort_t a,dist_sort_t b)
+{
+	dist_sort_t lowerbound = b*0.99999999;
+	dist_sort_t upperbound = b*1.00000001;
+
+	if(a>=lowerbound && a<=upperbound)
+	{
+       return true;
+	}
+	else
+	{
+		return false;
+	}   
+}
+
 void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, dist_sort_t *splitters, dist_sort_size_t *counts, int numSplitters) {
 	int rank;
 	int nProcs;
@@ -158,7 +173,16 @@ void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, di
                 	isexpected=0;
 					dist_sort_size_t leftprob = (i>0)?probs[i-1]:0;
 					dist_sort_size_t rightprob = probs[i+1];
-					mymove(leftprob,rightprob,probs[i],L[i],R[i],globalprefixcount[i],(i+1)*dataperregion);
+					if(globalprefixcount[i]>(i+1)*dataperregion) //move to left
+					{
+	   					R[i] = currentprob;
+       					probs[i] = max(L,leftprob) / 2  + probs[i]/2;
+   					}
+   					else  //move to right
+   					{
+						L[i] = currentprob;
+						probs[i] = min(R,rightprob) /2 + probs[i]/2;
+					}
 				}
 			}
 		}
