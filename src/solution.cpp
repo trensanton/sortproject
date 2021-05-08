@@ -174,12 +174,12 @@ void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, di
 					dist_sort_size_t rightprob = probs[i+1];
 					if(globalprefixcount[i]>(i+1)*dataperregion) //move to left
 					{
-	   					R[i] = currentprob;
+	   					R[i] = probs[i];
        					probs[i] = max(L,leftprob) / 2  + probs[i]/2;
    					}
    					else  //move to right
    					{
-						L[i] = currentprob;
+						L[i] = probs[i];
 						probs[i] = min(R,rightprob) /2 + probs[i]/2;
 					}
 				}
