@@ -126,7 +126,8 @@ void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, di
 		}
 
 		MPI_Bcast(probs,numSplitters,MPI_UNSIGNED_LONG_LONG,0,MPI_COMM_WORLD);
-        dist_sort_size_t probcounter = 0;
+		dist_sort_size_t probcounter = 0;
+		
 		for(dist_sort_size_t i=0;i<data_size;i++)
 		{
 			if(data[i]<=probs[probcounter])
@@ -150,16 +151,16 @@ void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, di
 			}
 
         	isexpected = 1;
-           for(dist_sort_size_t i=0;i<numSplitters-1;i++)
-		   {
-			   if(!tolerance(globalprefixcount[i],(i+1)*dataperregion ))
+			for(dist_sort_size_t i=0;i<numSplitters-1;i++)
+			{
+				if(!tolerance(globalprefixcount[i],(i+1)*dataperregion ))
 				{
                 	isexpected=0;
 					dist_sort_size_t leftprob = (i>0)?probs[i-1]:0;
 					dist_sort_size_t rightprob = probs[i+1];
 					mymove(leftprob,rightprob,probs[i],L[i],R[i],globalprefixcount[i],(i+1)*dataperregion);
 				}
-		   }
+			}
 		}
 		MPI_Bcast(&isexpected,1,MPI_UNSIGNED_LONG_LONG,0,MPI_COMM_WORLD);
 	}
