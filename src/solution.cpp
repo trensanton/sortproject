@@ -116,7 +116,7 @@ void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, di
 		}
 
 	}
-    //int maxiterations = 20;
+
 	while(isexpected ==0)
 	{
         for(int i = 0;i<numSplitters;i++) //init
