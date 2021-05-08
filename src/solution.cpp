@@ -64,7 +64,115 @@ void rebalance(const dist_sort_t *data, const dist_sort_size_t myDataCount, dist
 }
 
 void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, dist_sort_t *splitters, dist_sort_size_t *counts, int numSplitters) {
+	int rank;
+    int nProcs;
+	int totalcount;
+	MPI_Comm_size(MPI_COMM_WORLD, &nProcs); //get number of processes
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);   //my rank
 
+
+	for(int i=0;i<numSplitters;i++)
+	{
+		counts[i]=rank;
+	}
+
+	//dist_sort_t globalcount[numSplitters];
+	MPI_Allreduce(&data_size,&totalcount, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, MPI_COMM_WORLD);
+     
+	
+
+	dist_sort_t localmin,localmax,globalmin,globalmax;
+	localmin = DIST_SORT_MAX;
+	localmax = 0;
+
+	for(dist_sort_size_t i=0;i<data_size;i++)
+	{
+		if(data[i]>localmax){localmax=data[i];}
+		if(data[i]<localmin){localmin = data[i];}
+	}
+	 
+	MPI_Allreduce(&localmin,&globalmin,1,MPI_UNSIGNED_LONG_LONG,MPI_MIN,MPI_COMM_WORLD);
+	MPI_Allreduce(&localmax,&globalmax,1,MPI_UNSIGNED_LONG_LONG,MPI_MAX,MPI_COMM_WORLD);
+
+	dist_sort_t probs[numSplitters];
+	dist_sort_t L[numSplitters];
+	dist_sort_t R[numSplitters];
+	dist_sort_t globalcount[numSplitters];
+	dist_sort_t localcount[numSplitters];
+	dist_sort_t globalprefixcount[numSplitters];
+	dist_sort_size_t dataperregion = totalcount/(numSplitters);
+	probs[numSplitters-1]=globalmax;
+	L[numSplitters]=globalmax;
+	R[numSplitters]=globalmax;
+	dist_sort_t isexpected = 0;
+    
+	if(rank==0)
+	{
+		for(int i = 0;i<numSplitters-1;i++) //init
+		{
+			probs[i]= (i+1)*(globalmax/nProcs);
+			L[i]=0;
+			R[i]=globalmax;
+		}
+
+	}
+    
+    //int maxiterations = 20;
+    while(isexpected ==0)
+	{
+        for(int i = 0;i<numSplitters;i++) //init
+		{
+			localcount[i]= 0;
+			globalcount[i]=0;
+		}
+
+		MPI_Bcast(probs,numSplitters,MPI_UNSIGNED_LONG_LONG,0,MPI_COMM_WORLD);
+        dist_sort_size_t probcounter = 0;
+		for(dist_sort_size_t i=0;i<data_size;i++)
+		{
+			if(data[i]<=probs[probcounter])
+			{
+				localcount[probcounter]++;
+			}
+			else
+			{
+				probcounter++;
+				localcount[probcounter]++;
+			}     
+		}
+
+		MPI_Allreduce(&localcount,&globalcount,numSplitters,MPI_UNSIGNED_LONG_LONG,MPI_SUM,MPI_COMM_WORLD);
+
+		if(rank == 0)
+		{ 
+        	for(dist_sort_size_t i=0;i<numSplitters;i++)
+			{
+            	globalprefixcount[i]=(i>0)?globalcount[i]+globalprefixcount[i-1]:globalcount[i];
+			}
+
+        	isexpected = 1;
+           for(dist_sort_size_t i=0;i<numSplitters-1;i++)
+		   {
+			   if(!tolerance(globalprefixcount[i],(i+1)*dataperregion ))
+				{
+                	isexpected=0;
+					dist_sort_size_t leftprob = (i>0)?probs[i-1]:0;
+					dist_sort_size_t rightprob = probs[i+1];
+					mymove(leftprob,rightprob,probs[i],L[i],R[i],globalprefixcount[i],(i+1)*dataperregion);
+				}
+		   }
+		}
+		MPI_Bcast(&isexpected,1,MPI_UNSIGNED_LONG_LONG,0,MPI_COMM_WORLD);
+	}
+
+	MPI_Bcast(probs,numSplitters,MPI_UNSIGNED_LONG_LONG,0,MPI_COMM_WORLD);
+	MPI_Bcast(globalcount,numSplitters,MPI_UNSIGNED_LONG_LONG,0,MPI_COMM_WORLD);
+
+	for(dist_sort_size_t i = 0; i<numSplitters;i++)
+	{
+		counts[i]=globalcount[i];
+		splitters[i]=probs[i];
+	}
 }
 
 void moveData(const dist_sort_t *const sendData, const dist_sort_size_t sDataCount,
