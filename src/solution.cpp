@@ -182,12 +182,12 @@ void moveData(const dist_sort_t *const sendData, const dist_sort_size_t sDataCou
 	int nProcs;
 	int rank;
 	MPI_Comm_size(MPI_COMM_WORLD, &nProcs); //get number of processes
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);   //my rank
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);   //my rank
 
 	dist_sort_t localcounts[numSplitters];
 	dist_sort_t myoffset[numSplitters];
 
-    vector <vector<dist_sort_t>> sendtoprocess(numSplitters);
+	vector <vector<dist_sort_t>> sendtoprocess(numSplitters);
 
 
 	for(dist_sort_size_t i = 0;i<numSplitters;i++) //init
@@ -230,7 +230,7 @@ void moveData(const dist_sort_t *const sendData, const dist_sort_size_t sDataCou
 	MPI_Win_fence(0,win);
 	MPI_Win_fence(MPI_MODE_NOSUCCEED,win); 
 
-    *recvData = receivedbuffer;
+	*recvData = receivedbuffer;
 	*rDataCount = counts[rank];
 
     MPI_Win_free(&win);
