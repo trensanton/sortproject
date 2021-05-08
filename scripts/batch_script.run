@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -l walltime=01:00:00
-#PBS -l nodes=2:ppn=20
+
 #PBS -N proj-benchmark
 #PBS -j oe
 #PBS -q cs
