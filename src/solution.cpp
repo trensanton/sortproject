@@ -18,7 +18,7 @@ void rebalance(const dist_sort_t *data, const dist_sort_size_t myDataCount, dist
 	int rank;
 
 	MPI_Comm_size(MPI_COMM_WORLD, &nProcs); //get number of processes
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);   //MPI rank
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);   //MPI rank
 
 	MPI_Exscan(&myDataCount,&myStartGlobal,1,MPI_UNSIGNED_LONG_LONG,MPI_SUM,MPI_COMM_WORLD);  // finding total count  
 	MPI_Allreduce(&myDataCount, &totalCount, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, MPI_COMM_WORLD); //finding local count
