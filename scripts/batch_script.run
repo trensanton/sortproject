@@ -1,6 +1,5 @@
 #!/bin/bash
 #PBS -l walltime=01:00:00
-
 #PBS -N proj-benchmark
 #PBS -j oe
 #PBS -q cs
