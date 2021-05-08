@@ -63,6 +63,21 @@ void rebalance(const dist_sort_t *data, const dist_sort_size_t myDataCount, dist
 	MPI_Win_free(&win);
 }
 
+//moves a prob to left or right
+void moveProb(dist_sort_t leftprob,dist_sort_t rightprob,dist_sort_t &currentprob,dist_sort_t &L,dist_sort_t &R,dist_sort_t actual,dist_sort_t expected)
+{
+	if(actual>expected) //move to the left
+	{
+		R = currentprob;
+		currentprob = max(L,leftprob) / 2  + currentprob/2;
+	}
+	else  //move to the right
+	{
+		L = currentprob;
+		currentprob = min(R,rightprob) /2 + currentprob/2;
+	}
+}
+
 bool tolerance(dist_sort_t a,dist_sort_t b){
 	dist_sort_t lowerbound = b*0.99999999;
 	dist_sort_t upperbound = b*1.00000001;
@@ -172,16 +187,7 @@ void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, di
                 	isexpected=0;
 					dist_sort_size_t leftprob = (i>0)?probs[i-1]:0;
 					dist_sort_size_t rightprob = probs[i+1];
-					if(globalprefixcount[i]>(i+1)*dataperregion) //move to left
-					{
-	   					R[i] = probs[i];
-       					probs[i] = max(L,leftprob) / 2  + probs[i]/2;
-   					}
-   					else  //move to right
-   					{
-						L[i] = probs[i];
-						probs[i] = min(R,rightprob) /2 + probs[i]/2;
-					}
+					moveProb(leftprob,rightprob,probs[i],L[i],R[i],globalprefixcount[i],(i+1)*dataperregion);
 				}
 			}
 		}
