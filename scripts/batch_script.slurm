@@ -21,7 +21,8 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ##### End snippet
 
 #IF SLURM_SUBMIT_DIR is not set, we are not running in SLURM. Die.
-if [ "x${SLURM_SUBMIT_DIR}" -eq "x"]; then
+if [ "x${SLURM_SUBMIT_DIR}" -eq "x"]
+then
 	echo "Not running in SLURM. Terminating."
 	echo "Not running in SLURM. Terminating." 1>&2
 	exit 1
