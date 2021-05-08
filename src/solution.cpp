@@ -42,10 +42,10 @@ void rebalance(const dist_sort_t *data, const dist_sort_size_t myDataCount, dist
 		mystart+=size;
 	}
 
-    MPI_Win_fence(0,win);
+	MPI_Win_fence(0,win);
 	MPI_Win_fence(MPI_MODE_NOSUCCEED,win); 
     
-    MPI_Barrier(MPI_COMM_WORLD);
+	MPI_Barrier(MPI_COMM_WORLD);
 
 	int Count = 0;
 	*rebalancedData = sharedData;
