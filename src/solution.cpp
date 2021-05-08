@@ -179,6 +179,61 @@ void moveData(const dist_sort_t *const sendData, const dist_sort_size_t sDataCou
 		dist_sort_t **recvData, dist_sort_size_t *rDataCount,
 		const dist_sort_t *const splitters, const dist_sort_t *const counts, int numSplitters) {
 
+	int nProcs;
+	int rank;
+	MPI_Comm_size(MPI_COMM_WORLD, &nProcs); //get number of processes
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);   //my rank
+
+	dist_sort_t localcounts[numSplitters];
+	dist_sort_t myoffset[numSplitters];
+
+    vector <vector<dist_sort_t>> sendtoprocess(numSplitters);
+
+
+	for(dist_sort_size_t i = 0;i<numSplitters;i++) //init
+		{
+			localcounts[i]= 0;
+			myoffset[i]=0;
+		}
+	dist_sort_size_t splittercounter = 0;
+	for(dist_sort_size_t i=0;i<sDataCount;i++)
+		{
+			if(sendData[i]<=splitters[splittercounter])
+			{
+				localcounts[splittercounter] ++;
+				sendtoprocess[splittercounter].push_back(sendData[i]);
+			}
+			else
+			{
+				splittercounter++;
+				localcounts[splittercounter]++;
+				sendtoprocess[splittercounter].push_back(sendData[i]);
+				
+			}     
+		}
+
+	dist_sort_t* receivedbuffer = (dist_sort_t *)(malloc(counts[rank] * sizeof(dist_sort_t)));
+
+	MPI_Exscan(&localcounts,&myoffset,numSplitters,MPI_UNSIGNED_LONG_LONG,MPI_SUM,MPI_COMM_WORLD);
+
+	MPI_Win win;
+	MPI_Win_create(receivedbuffer,counts[rank] * sizeof(dist_sort_t), sizeof(dist_sort_t),MPI_INFO_NULL, MPI_COMM_WORLD, &win);
+	MPI_Win_fence(MPI_MODE_NOPRECEDE,win); 
+
+	//init data sending
+
+	for(dist_sort_size_t i = 0;i<numSplitters;i++)
+	{
+		MPI_Put(&sendtoprocess[i][0],sendtoprocess[i].size(), MPI_UNSIGNED_LONG_LONG,i,myoffset[i], sendtoprocess[i].size(), MPI_UNSIGNED_LONG_LONG, win);
+	}
+    
+	MPI_Win_fence(0,win);
+	MPI_Win_fence(MPI_MODE_NOSUCCEED,win); 
+
+    *recvData = receivedbuffer;
+	*rDataCount = counts[rank];
+
+    MPI_Win_free(&win);
 }
 
 void sort(dist_sort_t *data, dist_sort_size_t size) {
