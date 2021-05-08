@@ -3,7 +3,7 @@ project(mp3 VERSION 1.0.0 LANGUAGES C CXX)
 
 # Location of additional cmake modules
 #
-#add_definitions(-DSP19)#TODO: Remove this and the dependent code
+add_definitions(-DSP19)#TODO: Remove this and the dependent code
 #add_definitions(-DMEASURE_SORT_TIME)#TODO: Add this for next semester.
 
 set(CMAKE_MODULE_PATH
