@@ -65,7 +65,7 @@ void rebalance(const dist_sort_t *data, const dist_sort_size_t myDataCount, dist
 
 void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, dist_sort_t *splitters, dist_sort_size_t *counts, int numSplitters) {
 	int rank;
-    int nProcs;
+	int nProcs;
 	int totalcount;
 	MPI_Comm_size(MPI_COMM_WORLD, &nProcs); //get number of processes
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);   //my rank
@@ -118,7 +118,7 @@ void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, di
 	}
     
     //int maxiterations = 20;
-    while(isexpected ==0)
+	while(isexpected ==0)
 	{
         for(int i = 0;i<numSplitters;i++) //init
 		{
