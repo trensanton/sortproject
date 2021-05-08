@@ -4,12 +4,6 @@
 #PBS -j oe
 #PBS -q cs
 #PBS -S /projects/cs/cs484/sing_shell.sh
-#SBATCH --time=01:00:00
-#SBATCH --nodes=2
-#SBATCH --ntasks-per-node=24
-#SBATCH --exclusive
-#SBATCH --job-name proj-benchmark
-#SBATCH -p cs
 
 #TODO: create a nodefile and populate PBS_NUM_NODES/PBS_NUM_PPN if not running in torque.
 
