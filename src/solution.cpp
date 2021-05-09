@@ -66,12 +66,12 @@ void rebalance(const dist_sort_t *data, const dist_sort_size_t myDataCount, dist
 //moves a prob to left or right
 void moveProb(dist_sort_t leftprob,dist_sort_t rightprob,dist_sort_t &currentprob,dist_sort_t &L,dist_sort_t &R,dist_sort_t actual,dist_sort_t expected)
 {
-	if(actual>expected) //move to the left
+	if(actual>expected) //move to left
 	{
 		R = currentprob;
 		currentprob = max(L,leftprob) / 2  + currentprob/2;
 	}
-	else  //move to the right
+	else  //move to right
 	{
 		L = currentprob;
 		currentprob = min(R,rightprob) /2 + currentprob/2;
