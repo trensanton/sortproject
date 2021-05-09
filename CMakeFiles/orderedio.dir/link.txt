@@ -1,0 +1,2 @@
+/usr/bin/ar qc lib/liborderedio.a CMakeFiles/orderedio.dir/utils/src/orderedio.c.o
+/usr/bin/ranlib lib/liborderedio.a

@@ -14,6 +14,12 @@
 # EXTERNAL cache entries
 ########################
 
+//Build the testing tree.
+BUILD_TESTING:BOOL=ON
+
+//Path to a program.
+BZRCOMMAND:FILEPATH=BZRCOMMAND-NOTFOUND
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
 
@@ -224,6 +230,67 @@ CMAKE_STRIP:FILEPATH=/usr/bin/strip
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Path to the coverage program that CTest uses for performing coverage
+// inspection
+COVERAGE_COMMAND:FILEPATH=/usr/local/gcc/7.2.0/bin/gcov
+
+//Extra command line flags to pass to the coverage tool
+COVERAGE_EXTRA_FLAGS:STRING=-l
+
+//How many times to retry timed-out CTest submissions.
+CTEST_SUBMIT_RETRY_COUNT:STRING=3
+
+//How long to wait between timed-out CTest submissions.
+CTEST_SUBMIT_RETRY_DELAY:STRING=5
+
+//Path to a program.
+CVSCOMMAND:FILEPATH=/usr/bin/cvs
+
+//Options passed to the cvs update command.
+CVS_UPDATE_OPTIONS:STRING=-d -A -P
+
+//Maximum time allowed before CTest will kill the test.
+DART_TESTING_TIMEOUT:STRING=1500
+
+//Path to a file.
+GBENCH_INCLUDE_DIR:PATH=GBENCH_INCLUDE_DIR-NOTFOUND
+
+//Path to a library.
+GBENCH_LIBRARIES:FILEPATH=GBENCH_LIBRARIES-NOTFOUND
+
+//Path to a library.
+GBENCH_MAIN_LIBRARIES:FILEPATH=GBENCH_MAIN_LIBRARIES-NOTFOUND
+
+//Path to a program.
+GITCOMMAND:FILEPATH=/usr/local/src/git/2.19.0/bin/git
+
+//Path to a file.
+GTEST_INCLUDE_DIR:PATH=GTEST_INCLUDE_DIR-NOTFOUND
+
+//Path to a library.
+GTEST_LIBRARY:FILEPATH=GTEST_LIBRARY-NOTFOUND
+
+//Path to a library.
+GTEST_LIBRARY_DEBUG:FILEPATH=GTEST_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a library.
+GTEST_MAIN_LIBRARY:FILEPATH=GTEST_MAIN_LIBRARY-NOTFOUND
+
+//Path to a library.
+GTEST_MAIN_LIBRARY_DEBUG:FILEPATH=GTEST_MAIN_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a program.
+HGCOMMAND:FILEPATH=HGCOMMAND-NOTFOUND
+
+//Command to build the project
+MAKECOMMAND:STRING=/usr/local/cmake/3.18.4/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
+
+//Path to the memory checking command, used for memory error detection.
+MEMORYCHECK_COMMAND:FILEPATH=MEMORYCHECK_COMMAND-NOTFOUND
+
+//File that contains suppressions for the memory checker
+MEMORYCHECK_SUPPRESSIONS_FILE:FILEPATH=
+
 //Executable for running MPI programs.
 MPIEXEC_EXECUTABLE:FILEPATH=/usr/local/slurm/current/bin/mpiexec
 
@@ -245,25 +312,25 @@ MPIEXEC_PREFLAGS:STRING=
 MPI_CXX_ADDITIONAL_INCLUDE_DIRS:STRING=
 
 //MPI compiler for CXX
-MPI_CXX_COMPILER:FILEPATH=MPI_CXX_COMPILER-NOTFOUND
+MPI_CXX_COMPILER:FILEPATH=/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/bin/mpicxx
 
 //MPI CXX compiler wrapper include directories
-MPI_CXX_COMPILER_INCLUDE_DIRS:STRING=
+MPI_CXX_COMPILER_INCLUDE_DIRS:STRING=/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/include
 
 //MPI CXX compilation definitions
 MPI_CXX_COMPILE_DEFINITIONS:STRING=
 
-//MPI CXX compilation flags
-MPI_CXX_COMPILE_OPTIONS:STRING=
+//MPI CXX compilation options
+MPI_CXX_COMPILE_OPTIONS:STRING=-pthread
 
 //Path to a file.
-MPI_CXX_HEADER_DIR:PATH=MPI_CXX_HEADER_DIR-NOTFOUND
+MPI_CXX_HEADER_DIR:PATH=/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/include
 
 //MPI CXX libraries to link against
-MPI_CXX_LIB_NAMES:STRING=
+MPI_CXX_LIB_NAMES:STRING=mpi
 
 //MPI CXX linker flags
-MPI_CXX_LINK_FLAGS:STRING=
+MPI_CXX_LINK_FLAGS:STRING=-Wl,-rpath -Wl,/usr/lib64 -Wl,-rpath -Wl,/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/lib -Wl,--enable-new-dtags -L/usr/lib64 -pthread
 
 //If true, the MPI-2 C++ bindings are disabled using definitions.
 MPI_CXX_SKIP_MPICXX:BOOL=FALSE
@@ -272,25 +339,28 @@ MPI_CXX_SKIP_MPICXX:BOOL=FALSE
 MPI_C_ADDITIONAL_INCLUDE_DIRS:STRING=
 
 //MPI compiler for C
-MPI_C_COMPILER:FILEPATH=MPI_C_COMPILER-NOTFOUND
+MPI_C_COMPILER:FILEPATH=/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/bin/mpicc
 
 //MPI C compiler wrapper include directories
-MPI_C_COMPILER_INCLUDE_DIRS:STRING=
+MPI_C_COMPILER_INCLUDE_DIRS:STRING=/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/include
 
 //MPI C compilation definitions
 MPI_C_COMPILE_DEFINITIONS:STRING=
 
-//MPI C compilation flags
-MPI_C_COMPILE_OPTIONS:STRING=
+//MPI C compilation options
+MPI_C_COMPILE_OPTIONS:STRING=-pthread
 
 //Path to a file.
-MPI_C_HEADER_DIR:PATH=MPI_C_HEADER_DIR-NOTFOUND
+MPI_C_HEADER_DIR:PATH=/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/include
 
 //MPI C libraries to link against
-MPI_C_LIB_NAMES:STRING=
+MPI_C_LIB_NAMES:STRING=mpi
 
 //MPI C linker flags
-MPI_C_LINK_FLAGS:STRING=
+MPI_C_LINK_FLAGS:STRING=-Wl,-rpath -Wl,/usr/lib64 -Wl,-rpath -Wl,/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/lib -Wl,--enable-new-dtags -L/usr/lib64 -pthread
+
+//Location of the mpi library for MPI
+MPI_mpi_LIBRARY:FILEPATH=/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/lib/libmpi.so
 
 //CXX compiler flags for OpenMP parallelization
 OpenMP_CXX_FLAGS:STRING=-fopenmp
@@ -310,6 +380,21 @@ OpenMP_gomp_LIBRARY:FILEPATH=/usr/local/gcc/7.2.0/lib64/libgomp.so
 //Path to the pthread library for OpenMP
 OpenMP_pthread_LIBRARY:FILEPATH=/lib64/libpthread.so
 
+//Path to a program.
+P4COMMAND:FILEPATH=P4COMMAND-NOTFOUND
+
+//Name of the computer/site where compile is being run
+SITE:STRING=golubh3.campuscluster.illinois.edu
+
+//Path to the SLURM sbatch executable
+SLURM_SBATCH_COMMAND:FILEPATH=/usr/local/slurm/current/bin/sbatch
+
+//Path to the SLURM srun executable
+SLURM_SRUN_COMMAND:FILEPATH=/usr/local/slurm/current/bin/srun
+
+//Path to a program.
+SVNCOMMAND:FILEPATH=SVNCOMMAND-NOTFOUND
+
 //Value Computed by CMake
 mp3_BINARY_DIR:STATIC=/home/jiaweid3/sortproject
 
@@ -321,6 +406,8 @@ mp3_SOURCE_DIR:STATIC=/home/jiaweid3/sortproject
 # INTERNAL cache entries
 ########################
 
+//ADVANCED property for variable: BZRCOMMAND
+BZRCOMMAND-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -339,6 +426,8 @@ CMAKE_COLOR_MAKEFILE-ADVANCED:INTERNAL=1
 CMAKE_COMMAND:INTERNAL=/usr/local/cmake/3.18.4/bin/cmake
 //Path to cpack program executable.
 CMAKE_CPACK_COMMAND:INTERNAL=/usr/local/cmake/3.18.4/bin/cpack
+//ADVANCED property for variable: CMAKE_CTEST_COMMAND
+CMAKE_CTEST_COMMAND-ADVANCED:INTERNAL=1
 //Path to ctest program executable.
 CMAKE_CTEST_COMMAND:INTERNAL=/usr/local/cmake/3.18.4/bin/ctest
 //ADVANCED property for variable: CMAKE_CXX_COMPILER
@@ -466,12 +555,54 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: COVERAGE_COMMAND
+COVERAGE_COMMAND-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: COVERAGE_EXTRA_FLAGS
+COVERAGE_EXTRA_FLAGS-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CTEST_SUBMIT_RETRY_COUNT
+CTEST_SUBMIT_RETRY_COUNT-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CTEST_SUBMIT_RETRY_DELAY
+CTEST_SUBMIT_RETRY_DELAY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CVSCOMMAND
+CVSCOMMAND-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CVS_UPDATE_OPTIONS
+CVS_UPDATE_OPTIONS-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: DART_TESTING_TIMEOUT
+DART_TESTING_TIMEOUT-ADVANCED:INTERNAL=1
+//Details about finding MPI
+FIND_PACKAGE_MESSAGE_DETAILS_MPI:INTERNAL=[TRUE][TRUE][c ][v3.1()]
+//Details about finding MPI_C
+FIND_PACKAGE_MESSAGE_DETAILS_MPI_C:INTERNAL=[/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/lib/libmpi.so][mpi][/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/include][TRUE][v3.1()]
+//Details about finding MPI_CXX
+FIND_PACKAGE_MESSAGE_DETAILS_MPI_CXX:INTERNAL=[/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/lib/libmpi.so][mpi][/usr/local/mpi/rh7/openmpi/4.1.0/gcc/7.2.0/pmi2/include][TRUE][v3.1()]
 //Details about finding OpenMP
 FIND_PACKAGE_MESSAGE_DETAILS_OpenMP:INTERNAL=[TRUE][TRUE][c ][v4.5()]
 //Details about finding OpenMP_C
 FIND_PACKAGE_MESSAGE_DETAILS_OpenMP_C:INTERNAL=[-fopenmp][/usr/local/gcc/7.2.0/lib64/libgomp.so][/lib64/libpthread.so][v4.5()]
 //Details about finding OpenMP_CXX
 FIND_PACKAGE_MESSAGE_DETAILS_OpenMP_CXX:INTERNAL=[-fopenmp][/usr/local/gcc/7.2.0/lib64/libgomp.so][/lib64/libpthread.so][v4.5()]
+//ADVANCED property for variable: GBENCH_INCLUDE_DIR
+GBENCH_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: GITCOMMAND
+GITCOMMAND-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: GTEST_INCLUDE_DIR
+GTEST_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: GTEST_LIBRARY
+GTEST_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: GTEST_LIBRARY_DEBUG
+GTEST_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: GTEST_MAIN_LIBRARY
+GTEST_MAIN_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: GTEST_MAIN_LIBRARY_DEBUG
+GTEST_MAIN_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: HGCOMMAND
+HGCOMMAND-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: MAKECOMMAND
+MAKECOMMAND-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: MEMORYCHECK_COMMAND
+MEMORYCHECK_COMMAND-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: MEMORYCHECK_SUPPRESSIONS_FILE
+MEMORYCHECK_SUPPRESSIONS_FILE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: MPIEXEC_EXECUTABLE
 MPIEXEC_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: MPIEXEC_MAX_NUMPROCS
@@ -517,9 +648,13 @@ MPI_C_LIB_NAMES-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: MPI_C_LINK_FLAGS
 MPI_C_LINK_FLAGS-ADVANCED:INTERNAL=1
 //Result of TRY_COMPILE
-MPI_RESULT_CXX_test_mpi_normal:INTERNAL=FALSE
+MPI_RESULT_CXX_test_mpi_MPICXX:INTERNAL=TRUE
 //Result of TRY_COMPILE
-MPI_RESULT_C_test_mpi_normal:INTERNAL=FALSE
+MPI_RESULT_CXX_test_mpi_normal:INTERNAL=TRUE
+//Result of TRY_COMPILE
+MPI_RESULT_C_test_mpi_normal:INTERNAL=TRUE
+//ADVANCED property for variable: MPI_mpi_LIBRARY
+MPI_mpi_LIBRARY-ADVANCED:INTERNAL=1
 //Result of TRY_COMPILE
 OpenMP_COMPILE_RESULT_CXX_fopenmp:INTERNAL=TRUE
 //Result of TRY_COMPILE
@@ -544,4 +679,14 @@ OpenMP_SPECTEST_C_:INTERNAL=TRUE
 OpenMP_gomp_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OpenMP_pthread_LIBRARY
 OpenMP_pthread_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: P4COMMAND
+P4COMMAND-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SITE
+SITE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SLURM_SBATCH_COMMAND
+SLURM_SBATCH_COMMAND-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SLURM_SRUN_COMMAND
+SLURM_SRUN_COMMAND-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SVNCOMMAND
+SVNCOMMAND-ADVANCED:INTERNAL=1
 
