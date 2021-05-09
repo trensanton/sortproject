@@ -184,7 +184,7 @@ void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, di
 			{
 				if(!tolerance(globalprefixcount[i],(i+1)*dataperregion ))
 				{
-                	isexpected=0;
+					isexpected=0;
 					dist_sort_size_t leftprob = (i>0)?probs[i-1]:0;
 					dist_sort_size_t rightprob = probs[i+1];
 					moveProb(leftprob,rightprob,probs[i],L[i],R[i],globalprefixcount[i],(i+1)*dataperregion);
