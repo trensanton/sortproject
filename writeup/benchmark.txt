@@ -1,2 +1,6 @@
 Benchmark results
-Benchmark results
+Duration_Rebalance 0.144058 s
+Duration_Splitters 0.41465164 s
+Duration_Move 1.06546 s
+Duration_Total 1.62417 s
+Duration 1.62417 s
