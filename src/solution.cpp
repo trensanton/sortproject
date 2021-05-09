@@ -93,19 +93,16 @@ void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, di
 	int rank;
 	int numProcs;
 	int totalcount;
+
 	MPI_Comm_size(MPI_COMM_WORLD, &numProcs); //get number of processes
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);   //my rank
-
 
 	for(int i=0;i<numSplitters;i++)
 	{
 		counts[i]=rank;
 	}
 
-	//dist_sort_t globalcount[numSplitters];
 	MPI_Allreduce(&data_size,&totalcount, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, MPI_COMM_WORLD);
-     
-	
 
 	dist_sort_t localmin,localmax,globalmin,globalmax;
 	localmin = DIST_SORT_MAX;
