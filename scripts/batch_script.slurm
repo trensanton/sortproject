@@ -21,8 +21,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ##### End snippet
 
 #IF SLURM_SUBMIT_DIR is not set, we are not running in SLURM. Die.
-if [ "x${SLURM_SUBMIT_DIR}" -eq "x"]
-then
+if [ "x${SLURM_SUBMIT_DIR}" -eq "x"]; then
 	echo "Not running in SLURM. Terminating."
 	echo "Not running in SLURM. Terminating." 1>&2
 	exit 1
@@ -62,4 +61,5 @@ echo "Benchmarking"
 echo "Benchmark results" >> ${SLURM_SUBMIT_DIR}/writeup/benchmark.txt
 srun --mpi=pmi2 --ntasks-per-node 24 \
 	--cpu-bind=cores --ntasks 4 \
-	/projects/cs/cs484/sing_exec.sh ./bin/sorter -z 2 -a 5000000 -b 5000000 -s 1000000| grep "Duration" >> ${SLURM_SUBMIT_DIR}/writeup/benchmark.txt
+	/projects/cs/cs484/sing_exec.sh ./bin/sorter -z 2 -a 5000000 -b 5000000 -s 1000000| grep "Duration" >> \
+${SLURM_SUBMIT_DIR}/writeup/benchmark.txt
