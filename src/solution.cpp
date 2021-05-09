@@ -82,14 +82,11 @@ bool tolerance(dist_sort_t a,dist_sort_t b){
 	dist_sort_t lowerbound = b*0.99;
 	dist_sort_t upperbound = b*1.01;
 
-	if(a>=lowerbound && a<=upperbound)
-	{
-		return true;
-	}
-	else
+	if(a > upperbound || a < lowerbound)
 	{
 		return false;
-	}   
+	}
+	return true;  
 }
 
 void findSplitters(const dist_sort_t *data, const dist_sort_size_t data_size, dist_sort_t *splitters, dist_sort_size_t *counts, int numSplitters) {
