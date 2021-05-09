@@ -78,7 +78,7 @@ void moveProb(dist_sort_t &currentprob,dist_sort_t leftprob,dist_sort_t rightpro
 	}
 }
 
-bool tolerance(dist_sort_t a,dist_sort_t b){
+bool tolerance(dist_sort_t a, dist_sort_t b){
 	dist_sort_t lowerbound = b*0.99;
 	dist_sort_t upperbound = b*1.01;
 
